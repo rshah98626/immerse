@@ -4,6 +4,22 @@ import styles from '../styles/Home.module.css'
 
 export default function Home() {
   return (
+    <StartPage />
+  )
+}
+
+function StartPage() {
+  return (
+    <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+        <h1>Immerse</h1>
+        <p>A new way to learn language</p>
+        <button className="btn btn-primary">Get Started</button>
+    </div>
+  )
+}
+
+function GivenVercelStartPage() {
+  return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
