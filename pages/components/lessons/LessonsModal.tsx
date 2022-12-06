@@ -1,5 +1,8 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import CloseButton from 'react-bootstrap/CloseButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAnglesRight } from '@fortawesome/free-solid-svg-icons'
 
 export default function LessonsModal(props: {
   onHide: () => void,
@@ -12,9 +15,10 @@ export default function LessonsModal(props: {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          <CloseButton onClick={props.onHide}/>
+          <FontAwesomeIcon icon={faAnglesRight} />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
