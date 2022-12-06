@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app'
 // add bootstrap css
 import 'bootstrap/dist/css/bootstrap.css'
 import Head from "next/head";
+import SSRProvider from 'react-bootstrap/SSRProvider';
+
 
 export default function App({ Component, pageProps }: AppProps) {
   return(
@@ -10,7 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Component {...pageProps} />
+      <SSRProvider>
+        <Component {...pageProps} />
+      </SSRProvider>
     </>
   )
 }
