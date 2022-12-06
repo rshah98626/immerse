@@ -1,20 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import StartPage from './components/start/StartPage'
 
 export default function Home() {
   return (
     <StartPage />
-  )
-}
-
-function StartPage() {
-  return (
-    <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-        <h1>Immerse</h1>
-        <p>A new way to learn languages</p>
-        <button className="btn btn-primary">Get Started</button>
-    </div>
   )
 }
 
