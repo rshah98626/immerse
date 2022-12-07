@@ -1,8 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import CloseButton from 'react-bootstrap/CloseButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAnglesRight } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesRight, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 export default function LessonsModal(props: {
   onHide: () => void,
@@ -16,10 +15,24 @@ export default function LessonsModal(props: {
       centered
     >
       <Modal.Header>
-        <Modal.Title id="contained-modal-title-vcenter">
-          <CloseButton onClick={props.onHide}/>
-          <FontAwesomeIcon icon={faAnglesRight} />
-        </Modal.Title>
+        <div className="container">
+          <div className='row'>
+            <div className='col-md-4'>
+              <div className='d-flex flex-row'>
+                  <div className='p-2' onClick={props.onHide}>
+                    <FontAwesomeIcon icon={faXmark} size={"lg"}/>
+                  </div>
+              </div>
+            </div>
+            <div className='col-md-4 offset-md-4'>
+              <div className='d-flex flex-row-reverse'>
+                <div className='p-2'>
+                  <FontAwesomeIcon icon={faAnglesRight} size={"lg"} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </Modal.Header>
       <Modal.Body>
         <h4>Centered Modal</h4>
