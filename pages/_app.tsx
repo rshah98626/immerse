@@ -4,6 +4,10 @@ import type { AppProps } from 'next/app'
 import 'bootstrap/dist/css/bootstrap.css'
 import Head from "next/head";
 import SSRProvider from 'react-bootstrap/SSRProvider';
+// add fontawesome
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
 
 
 export default function App({ Component, pageProps }: AppProps) {
