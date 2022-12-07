@@ -2,6 +2,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAnglesRight, faXmark } from '@fortawesome/free-solid-svg-icons'
+import VideoPronunciationLesson from './VideoPronunciationLesson';
 
 export default function LessonsModal(props: {
   onHide: () => void,
@@ -35,16 +36,8 @@ export default function LessonsModal(props: {
         </div>
       </Modal.Header>
       <Modal.Body>
-        <h4>Centered Modal</h4>
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </p>
+        <VideoPronunciationLesson />
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
     </Modal>
   );
 }
