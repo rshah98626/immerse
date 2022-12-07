@@ -1,8 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAnglesRight, faXmark } from '@fortawesome/free-solid-svg-icons'
-import VideoPronunciationLesson from './VideoPronunciationLesson';
+import LessonsController from './LessonsController';
 
 export default function LessonsModal(props: {
   onHide: () => void,
@@ -36,7 +35,7 @@ export default function LessonsModal(props: {
         </div>
       </Modal.Header>
       <Modal.Body>
-        <VideoPronunciationLesson />
+        <LessonsController />
       </Modal.Body>
     </Modal>
   );

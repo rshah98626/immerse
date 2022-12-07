@@ -1,6 +1,8 @@
 import { Button, Ratio } from 'react-bootstrap';
 
-export default function VideoPronunciationLesson() {
+export default function VideoPronunciationLesson(props: {
+  incrementIndex: () => void,
+}) {
   return (
     <div>
       <Ratio aspectRatio={"1x1"}>
@@ -10,7 +12,7 @@ export default function VideoPronunciationLesson() {
       </Ratio>
       <h4>¿Qué estás comiendo?</h4>
       <h4>What are you eating?</h4>
-      <Button variant='primary'>Next</Button>
+      <Button variant='primary' onClick={props.incrementIndex}>Next</Button>
     </div>
   )
 }
