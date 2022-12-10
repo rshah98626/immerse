@@ -44,7 +44,9 @@ export default function MultipleChoiceComprehension(props: {
           
         )
       })}
-      <Button variant="primary" onClick={props.incrementIndex}>Next</Button>
+      <div className={css(styles.centeredDiv)}>
+        <Button variant="primary" onClick={props.incrementIndex} style={{ width: "100%" }}>Next</Button>
+      </div>
     </>
   )
 }

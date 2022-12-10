@@ -22,7 +22,7 @@ export default function VideoPronunciationLesson(props: {
   return (
     <div>
       <Ratio aspectRatio={"1x1"}>
-        <video autoPlay onEnded={() => { console.log("in here"); setVideoFinished(true)} } loop={false}> 
+        <video autoPlay onEnded={() => { setVideoFinished(true) }} loop={false}> 
           <source src="/videos/whatAreYouEating.mp4" type="video/mp4" />
         </video>
       </Ratio>

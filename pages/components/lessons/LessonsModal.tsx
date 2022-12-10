@@ -17,18 +17,11 @@ export default function LessonsModal(props: {
       <Modal.Header>
         <div className="container">
           <div className='row'>
-            <div className='col-md-4'>
-              <div className='d-flex flex-row'>
+            <div className='col-md-2 offset-md-10'>
+              <div className='d-flex flex-row-reverse'>
                   <div className='p-2' onClick={props.onHide}>
                     <FontAwesomeIcon icon={faXmark} size={"lg"}/>
                   </div>
-              </div>
-            </div>
-            <div className='col-md-4 offset-md-4'>
-              <div className='d-flex flex-row-reverse'>
-                <div className='p-2'>
-                  <FontAwesomeIcon icon={faAnglesRight} size={"lg"} />
-                </div>
               </div>
             </div>
           </div>
