@@ -5,10 +5,12 @@ export default function VideoPronunciationLesson(props: {
   incrementIndex: () => void,
 }) {
   const [acknowledged, setAcknowledged] = useState(false)
+  const [videoFinished, setVideoFinished] = useState(false)
+
   return (
     <div>
       <Ratio aspectRatio={"1x1"}>
-        <video controls> 
+        <video autoPlay onEnded={() => { console.log("in here"); setVideoFinished(true)} } loop={false}> 
           <source src="/videos/whatAreYouEating.mp4" type="video/mp4" />
         </video>
       </Ratio>
@@ -28,7 +30,7 @@ export default function VideoPronunciationLesson(props: {
           className="btn-block mr-1 mt-1 btn-lg" 
           variant='primary' 
           onClick={props.incrementIndex} 
-          disabled={!acknowledged}
+          disabled={!acknowledged || !videoFinished}
           style={{ width: "100%" }}
         >
           Next
