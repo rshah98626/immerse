@@ -1,12 +1,14 @@
+import { useState } from 'react';
 import { Button, Ratio } from 'react-bootstrap';
 
 export default function VideoPronunciationLesson(props: {
   incrementIndex: () => void,
 }) {
+  const [acknowledged, setAcknowledged] = useState(false)
   return (
     <div>
       <Ratio aspectRatio={"1x1"}>
-        <video controls > 
+        <video controls> 
           <source src="/videos/whatAreYouEating.mp4" type="video/mp4" />
         </video>
       </Ratio>
@@ -14,9 +16,24 @@ export default function VideoPronunciationLesson(props: {
         <h4>¿Qué <span style={{ color: '#0083ff' }}>estás</span> comiendo?</h4>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', margin: "1em" }}>
-        <h4>What are you eating?</h4>
+        <Button 
+          variant={acknowledged ? 'success': 'secondary'}
+          onClick={() => setAcknowledged(true)}
+        > 
+          {acknowledged ? '✅' : ''} What are you eating?
+        </Button>
       </div>
-      <Button variant='primary' onClick={props.incrementIndex}>Next</Button>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: "1em", marginTop: "2em" }}>
+        <Button 
+          className="btn-block mr-1 mt-1 btn-lg" 
+          variant='primary' 
+          onClick={props.incrementIndex} 
+          disabled={!acknowledged}
+          style={{ width: "100%" }}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   )
 }
