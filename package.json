@@ -25,6 +25,12 @@
     "react-confetti-explosion": "^1.5.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.40.0",
+    "react-speech-kit": "^3.0.1",
+    "react-speech-recognition": "^3.10.0",
+    "regenerator-runtime": "^0.13.11",
     "typescript": "4.9.3"
+  },
+  "devDependencies": {
+    "@types/react-speech-recognition": "^3.9.0"
   }
 }
