@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, VoidFunctionComponent } from "react";
 import { Button } from "react-bootstrap";
 import { StyleSheet, css } from 'aphrodite'
 
@@ -26,8 +26,14 @@ export default function MultipleChoiceComprehension(props: {
   const [goToNextLesson, setGoToNextLesson] = useState(false)
   const successCallback = () => setGoToNextLesson(true)
 
+  const [oneButtonWasSelected, setOneButtonWasSelected] = useState(false)
+  const componentWasClicked = () => setOneButtonWasSelected(true)
+
   const [shuffledOptions, setShuffledOptions] = useState(shuffleArray(props.options))
-  const failureCallback = () => setShuffledOptions(shuffleArray(props.options))
+  const failureCallback = () => {
+    setShuffledOptions(shuffleArray(props.options))
+    setOneButtonWasSelected(false)
+  }
 
   return (
     <>
@@ -43,7 +49,9 @@ export default function MultipleChoiceComprehension(props: {
             <MultipleChoiceOption
               optionText={obj.text}
               isCorrectChoice={obj.isAnswer}
-              onClickCallback={obj.isAnswer ? successCallback : failureCallback}
+              successOrFailureAction={obj.isAnswer ? successCallback : failureCallback}
+              componentWasClicked={componentWasClicked}
+              disabled={oneButtonWasSelected}
             />
           </div>
           
@@ -66,7 +74,9 @@ export default function MultipleChoiceComprehension(props: {
 function MultipleChoiceOption(props: {
   optionText: string,
   isCorrectChoice: boolean,
-  onClickCallback: () => void
+  successOrFailureAction: () => void,
+  componentWasClicked: () => void,
+  disabled: boolean,
 }) {
   const [wasChosen, setWasChosen] = useState(false)
 
@@ -75,20 +85,29 @@ function MultipleChoiceOption(props: {
 
   var timer: NodeJS.Timeout | null = null
   const onClickFunc = () => {
+    props.componentWasClicked()
     setWasChosen(true)
     if (props.isCorrectChoice)
-      props.onClickCallback()
+      props.successOrFailureAction()
     else
       timer = setTimeout(() => {
         setWasChosen(false)
-        props.onClickCallback()
+        props.successOrFailureAction()
       }, 1000)
   }
+
+  useEffect(() => {
+    return () => {
+      if (timer !== null)
+        clearTimeout(timer)
+    }
+  }, [timer])
 
   return (
     <Button 
       variant={!wasChosen ? 'secondary' : variantOnClick}
       onClick={onClickFunc}
+      disabled={props.disabled && !wasChosen}
     >
       {wasChosen ? correlatedEmoji + ' ' : ''}{props.optionText}
     </Button>
