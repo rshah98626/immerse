@@ -23,7 +23,11 @@ export default function MultipleChoiceComprehension(props: {
   options: Option[],
   unknownText: string,
 }) {
-  const shuffledOptions = shuffleArray(props.options)
+  const [goToNextLesson, setGoToNextLesson] = useState(false)
+  const successCallback = () => setGoToNextLesson(true)
+
+  const [shuffledOptions, setShuffledOptions] = useState(shuffleArray(props.options))
+  const failureCallback = () => setShuffledOptions(shuffleArray(props.options))
 
   return (
     <>
@@ -39,13 +43,21 @@ export default function MultipleChoiceComprehension(props: {
             <MultipleChoiceOption
               optionText={obj.text}
               isCorrectChoice={obj.isAnswer}
+              onClickCallback={obj.isAnswer ? successCallback : failureCallback}
             />
           </div>
           
         )
       })}
       <div className={css(styles.centeredDiv)}>
-        <Button variant="primary" onClick={props.incrementIndex} style={{ width: "100%" }}>Next</Button>
+        <Button 
+          variant="primary" 
+          onClick={props.incrementIndex} 
+          style={{ width: "100%" }}
+          disabled={!goToNextLesson}
+        >
+          Next
+        </Button>
       </div>
     </>
   )
@@ -54,16 +66,31 @@ export default function MultipleChoiceComprehension(props: {
 function MultipleChoiceOption(props: {
   optionText: string,
   isCorrectChoice: boolean,
+  onClickCallback: () => void
 }) {
   const [wasChosen, setWasChosen] = useState(false)
+
   const variantOnClick = props.isCorrectChoice ? 'success' : 'danger'
+  const correlatedEmoji = props.isCorrectChoice ? '✅' : '❌'
+
+  var timer: NodeJS.Timeout | null = null
+  const onClickFunc = () => {
+    setWasChosen(true)
+    if (props.isCorrectChoice)
+      props.onClickCallback()
+    else
+      timer = setTimeout(() => {
+        setWasChosen(false)
+        props.onClickCallback()
+      }, 1000)
+  }
 
   return (
     <Button 
       variant={!wasChosen ? 'secondary' : variantOnClick}
-      onClick={() => setWasChosen(true)}
+      onClick={onClickFunc}
     >
-      {props.optionText}
+      {wasChosen ? correlatedEmoji + ' ' : ''}{props.optionText}
     </Button>
   )
 }
