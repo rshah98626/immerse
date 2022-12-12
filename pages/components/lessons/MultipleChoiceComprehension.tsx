@@ -93,7 +93,7 @@ function MultipleChoiceOption(props: {
       timer = setTimeout(() => {
         setWasChosen(false)
         props.successOrFailureAction()
-      }, 1000)
+      }, 500)
   }
 
   useEffect(() => {
