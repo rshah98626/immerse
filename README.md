@@ -1,3 +1,9 @@
+## Pulling in updates
+When pulling down updates, run git pull. If there is an error, or the message says aborted, double check to see which files are affected. It may look something like this: 
+![IMG_4520](https://user-images.githubusercontent.com/25466611/207184951-aedd18b9-c0a4-4a96-ac9b-70db4984e098.jpeg)
+
+Then run `git checkout {your conflicting files go here, in the example above it'd be package-lock.json}`. After that runs, run `git pull`, then `npm install --legacy-peer-deps`. Now you should be able to start the app by running `npm run dev`.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
