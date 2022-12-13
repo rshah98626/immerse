@@ -1,6 +1,7 @@
 import { useEffect, useState, VoidFunctionComponent } from "react";
 import { Button } from "react-bootstrap";
 import { StyleSheet, css } from 'aphrodite'
+import { useSpeechSynthesis } from 'react-speech-kit'
 
 const styles = StyleSheet.create({
   centeredDiv: {
@@ -18,22 +19,48 @@ export interface Option {
   isAnswer: boolean;
 }
 
-export default function MultipleChoiceComprehension(props: {
+export const MultipleChoiceComprehension = (props: {
   incrementIndex: () => void,
   options: Option[],
   unknownText: string,
-}) {
+}) => {
   const [goToNextLesson, setGoToNextLesson] = useState(false)
   const successCallback = () => setGoToNextLesson(true)
 
-  const [oneButtonWasSelected, setOneButtonWasSelected] = useState(false)
-  const componentWasClicked = () => setOneButtonWasSelected(true)
+  const [shouldDisableButtons, setShouldDisableButtons] = useState(false)
+  const componentWasClicked = () => setShouldDisableButtons(true)
 
   const [shuffledOptions, setShuffledOptions] = useState(shuffleArray(props.options))
   const failureCallback = () => {
     setShuffledOptions(shuffleArray(props.options))
-    setOneButtonWasSelected(false)
+    setShouldDisableButtons(false)
   }
+
+  const [hasSpoken, setHasSpoken] = useState(false)
+  const onEnd = () => {
+    console.log("ended speaking")
+    setHasSpoken(true)
+  }
+  const { speak, voices, supported, speaking, cancel} = useSpeechSynthesis({ onEnd });
+  const voiceIndex = voices.findIndex((voice: SpeechSynthesisVoice) => voice.lang === 'es-ES')
+  // ranges from 0.5 to 2
+  const dictationSpeed = 0.75
+
+  useEffect(() => {
+    console.log("in use effect for speaking")
+    if (!hasSpoken) {
+      console.log("turning on speech")
+      speak({ text: 'Qué estás comiendo?', voice: voices[voiceIndex], rate: dictationSpeed })
+    }
+    return () => {
+      console.log("cleaning up speaking")
+      if (speaking)
+        cancel()
+    }
+  }, [hasSpoken])
+
+  if (!supported)
+    return <div>Your browser does not support speech dictation. Please switch browsers.</div>
 
   return (
     <>
@@ -51,10 +78,9 @@ export default function MultipleChoiceComprehension(props: {
               isCorrectChoice={obj.isAnswer}
               successOrFailureAction={obj.isAnswer ? successCallback : failureCallback}
               componentWasClicked={componentWasClicked}
-              disabled={oneButtonWasSelected}
+              disabled={shouldDisableButtons}
             />
           </div>
-          
         )
       })}
       <div className={css(styles.centeredDiv)}>
@@ -62,7 +88,7 @@ export default function MultipleChoiceComprehension(props: {
           variant="primary" 
           onClick={props.incrementIndex} 
           style={{ width: "100%" }}
-          disabled={!goToNextLesson}
+          disabled={!(goToNextLesson && hasSpoken)}
         >
           Next
         </Button>
