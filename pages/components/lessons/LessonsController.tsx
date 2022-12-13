@@ -24,11 +24,11 @@ export default function LessonsController() {
       isAnswer: false,
     }
   ]
-  const spanishText = "¿Qué estás comiendo?"
+  const spanishText = "Qué estás comiendo?"
 
   const indexToLesson = [
-    MultipleChoiceComprehension({ incrementIndex, options: englishOptions, unknownText: spanishText }), // spanish to english
     VideoPronunciationLesson({ incrementIndex }),
+    MultipleChoiceComprehension({ incrementIndex, options: englishOptions, unknownText: spanishText, speakingLanguage: 'es-ES' }), // spanish to english
     SpeechLesson(),
     // MultipleChoiceComprehension({ incrementIndex }), // english to spanish
     FinishedLessonScreen(),
