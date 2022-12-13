@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useTts } from 'tts-react'
 import type { TTSHookProps } from 'tts-react'
 import { useCallback, useEffect, useState } from "react";
