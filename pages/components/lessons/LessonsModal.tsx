@@ -1,6 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAnglesRight, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import LessonsController from './LessonsController';
 
 export default function LessonsModal(props: {
