@@ -1,1 +1,2 @@
-declare module 'react-speech-kit'
+// unused line, just for reference
+// declare module 'react-speech-kit'

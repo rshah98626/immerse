@@ -1,6 +1,8 @@
-import { useEffect, useState, VoidFunctionComponent } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { StyleSheet, css } from 'aphrodite'
+import { SpeakingComponent } from "../misc/SpeakingComponent";
+import MultipleChoiceOptionGenerator from "../misc/MultipleChoiceOptionGenerator";
 
 const styles = StyleSheet.create({
   centeredDiv: {
@@ -18,99 +20,54 @@ export interface Option {
   isAnswer: boolean;
 }
 
-export default function MultipleChoiceComprehension(props: {
+export const MultipleChoiceComprehension = (props: {
   incrementIndex: () => void,
   options: Option[],
   unknownText: string,
-}) {
+  speakingLanguage: string,
+}) => {
   const [goToNextLesson, setGoToNextLesson] = useState(false)
-  const successCallback = () => setGoToNextLesson(true)
-
-  const [oneButtonWasSelected, setOneButtonWasSelected] = useState(false)
-  const componentWasClicked = () => setOneButtonWasSelected(true)
-
   const [shuffledOptions, setShuffledOptions] = useState(shuffleArray(props.options))
+  const [hasSpoken, setHasSpoken] = useState(false)
+
+  const [shouldDisableButtons, setShouldDisableButtons] = useState(false)
+  const componentWasClicked = () => setShouldDisableButtons(true)
+
+  const successCallback = () => setGoToNextLesson(true)
   const failureCallback = () => {
     setShuffledOptions(shuffleArray(props.options))
-    setOneButtonWasSelected(false)
+    setShouldDisableButtons(false)
   }
 
   return (
     <>
       <div className={css(styles.centeredDiv)}>
-        <h2>{props.unknownText}</h2>
+        <SpeakingComponent 
+          onEnd={(_: SpeechSynthesisEvent | Event) => setHasSpoken(true)}
+          lang={props.speakingLanguage}
+          rate={0.75}
+        >
+          <h2>{props.unknownText}</h2>
+        </SpeakingComponent>
       </div>
-      {shuffledOptions.map((obj, index) => {
-        return (
-          <div 
-            className={css(styles.centeredDiv)}
-            key={index}
-          >
-            <MultipleChoiceOption
-              optionText={obj.text}
-              isCorrectChoice={obj.isAnswer}
-              successOrFailureAction={obj.isAnswer ? successCallback : failureCallback}
-              componentWasClicked={componentWasClicked}
-              disabled={oneButtonWasSelected}
-            />
-          </div>
-          
-        )
-      })}
+      <MultipleChoiceOptionGenerator
+        shuffledOptions={shuffledOptions}
+        successCallback={successCallback}
+        failureCallback={failureCallback}
+        componentWasClicked={componentWasClicked}
+        shouldDisableButtons={shouldDisableButtons}
+      />
       <div className={css(styles.centeredDiv)}>
         <Button 
           variant="primary" 
           onClick={props.incrementIndex} 
           style={{ width: "100%" }}
-          disabled={!goToNextLesson}
+          disabled={!(goToNextLesson && hasSpoken)}
         >
           Next
         </Button>
       </div>
     </>
-  )
-}
-
-function MultipleChoiceOption(props: {
-  optionText: string,
-  isCorrectChoice: boolean,
-  successOrFailureAction: () => void,
-  componentWasClicked: () => void,
-  disabled: boolean,
-}) {
-  const [wasChosen, setWasChosen] = useState(false)
-
-  const variantOnClick = props.isCorrectChoice ? 'success' : 'danger'
-  const correlatedEmoji = props.isCorrectChoice ? '✅' : '❌'
-
-  var timer: NodeJS.Timeout | null = null
-  const onClickFunc = () => {
-    props.componentWasClicked()
-    setWasChosen(true)
-    if (props.isCorrectChoice)
-      props.successOrFailureAction()
-    else
-      timer = setTimeout(() => {
-        setWasChosen(false)
-        props.successOrFailureAction()
-      }, 500)
-  }
-
-  useEffect(() => {
-    return () => {
-      if (timer !== null)
-        clearTimeout(timer)
-    }
-  }, [timer])
-
-  return (
-    <Button 
-      variant={!wasChosen ? 'secondary' : variantOnClick}
-      onClick={onClickFunc}
-      disabled={props.disabled && !wasChosen}
-    >
-      {wasChosen ? correlatedEmoji + ' ' : ''}{props.optionText}
-    </Button>
   )
 }
 

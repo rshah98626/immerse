@@ -1,6 +1,6 @@
 import React from "react"
 import FinishedLessonScreen from "./FinishedLessonScreen"
-import MultipleChoiceComprehension, { Option } from "./MultipleChoiceComprehension"
+import { MultipleChoiceComprehension, Option } from "./MultipleChoiceComprehension"
 import SpeechLesson from "./SpeechLesson"
 import VideoPronunciationLesson from "./VideoPronunciationLesson"
 
@@ -28,7 +28,7 @@ export default function LessonsController() {
 
   const indexToLesson = [
     VideoPronunciationLesson({ incrementIndex }),
-    MultipleChoiceComprehension({ incrementIndex, options: englishOptions, unknownText: spanishText }), // spanish to english
+    MultipleChoiceComprehension({ incrementIndex, options: englishOptions, unknownText: spanishText, speakingLanguage: 'es-ES' }), // spanish to english
     SpeechLesson(),
     // MultipleChoiceComprehension({ incrementIndex }), // english to spanish
     FinishedLessonScreen(),
