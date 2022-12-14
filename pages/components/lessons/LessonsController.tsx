@@ -24,7 +24,7 @@ export default function LessonsController() {
       isAnswer: false,
     }
   ]
-  const spanishText = "Qué estás comiendo?"
+  const spanishText = "¿Qué estás comiendo?"
 
   const indexToLesson = [
     VideoPronunciationLesson({ incrementIndex }),
