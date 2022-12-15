@@ -24,7 +24,7 @@
     "next-transpile-modules": "^10.0.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.6.0",
-    "react-confetti-explosion": "^1.5.1",
+    "react-confetti": "^6.1.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.40.0",
     "react-speech-recognition": "^3.10.0",
