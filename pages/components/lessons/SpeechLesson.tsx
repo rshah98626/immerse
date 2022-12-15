@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import Image from "next/image"
 import audioWave from '../../../public/icons8-audio-wave.gif'
+import { useState } from "react"
+import { NextButton } from "../common/NextButton"
 
 const styles = StyleSheet.create({
   centeredDiv: {
@@ -20,20 +22,37 @@ const styles = StyleSheet.create({
   },
   blueText: {
     color: '#2876ce'
+  },
+  tenPercentSquare: {
+    width: '10%',
+    height: '10%',
   }
 })
 
 export const SpeechLesson = (props: {
-  spanishText: string,
+  shownSpanishText: string,
+  spanishAnswer: string,
   englishText: string,
+  incrementIndex: () => void,
 }) => {
+  const [textMatches, setTextMatches] = useState(false)
+  const commands = [
+    {
+      command: props.spanishAnswer,
+      callback: (_command: any, _spokenPhrase: any, similarityRatio: any) => {
+        console.log(`Similarity ratio: ${similarityRatio}`)
+        setTextMatches(true)
+      },
+      isFuzzyMatch: true,
+      fuzzyMatchingThreshold: 0.7,
+    }
+  ]
   const {
     transcript,
     listening,
-    resetTranscript,
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable
-  } = useSpeechRecognition();
+  } = useSpeechRecognition({ commands });
 
   if (!browserSupportsSpeechRecognition) {
     return <div>Your browser does not support speech recognition. Please switch browsers.</div>
@@ -46,47 +65,52 @@ export const SpeechLesson = (props: {
   return (
     <div>
       <div className={css(styles.centeredDiv)}>
-        <h2>{props.spanishText}</h2>
+        <h2>{props.shownSpanishText}</h2>
       </div>
       <div className={css(styles.centeredDiv)}>
         <h6>{props.englishText}</h6>
       </div>
-      <div className={css(styles.centeredDiv)}>
-        <h3 className={css(styles.blueText)}>{transcript}</h3>
-      </div>
-      <div className={css(styles.centeredDiv)}>
-        <Image src={audioWave} alt="soundWaves"/>
-      </div>
+      <TranscriptText transcript={transcript} />
+      <SoundWavesAnimation listening={listening} />
       <div className={css(styles.centeredDiv, styles.moreTopMargin)}>
         <Button 
           className={css(styles.roundedCorners)}
           onClick={() => SpeechRecognition.startListening({ language: 'es-ES' })}
+          disabled={textMatches}
         >
           <FontAwesomeIcon icon={faMicrophone}/> Say in Spanish
         </Button>
       </div>
+      <Button 
+        className="btn-block mr-1 mt-1 btn-lg"
+        variant="light"
+        style={{ width: "100%", background: "#f4f5f8" }}
+        onClick={props.incrementIndex}
+      >Skip</Button>
+      <NextButton 
+        incrementIndex={props.incrementIndex}
+        disabled={!textMatches}
+      />
     </div>
-
-    // <div>
-    //   <div>
-    //     <Button 
-    //       variant="primary" 
-    //       onClick={() => SpeechRecognition.startListening({ language: 'es-US' })}
-    //     >
-    //       Start listening
-    //     </Button>
-    //   </div>
-    //   <div>
-    //     <Button 
-    //       variant="danger"
-    //       onClick={() => SpeechRecognition.stopListening()}
-    //     >
-    //       Stop listening
-    //     </Button>
-    //   </div>
-    //   <div>
-    //     <h6>This is the transcript: {transcript}</h6>
-    //   </div>
-    // </div>
   )
+}
+
+const TranscriptText = (props: { transcript: string }) => {
+  return props.transcript !== '' ? (
+    <div className={css(styles.centeredDiv)}>
+      <h3 className={css(styles.blueText)}>{props.transcript}</h3>
+    </div>
+  ) : <></>
+}
+
+const SoundWavesAnimation = (props: { listening: boolean }) => {
+  return props.listening ? (
+    <div className={css(styles.centeredDiv)}>
+      <Image 
+        className={css(styles.tenPercentSquare)} 
+        src={audioWave} 
+        alt="soundWaves"
+      />
+    </div>
+  ) : <></>
 }

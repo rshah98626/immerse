@@ -8,7 +8,6 @@ import VideoPronunciationLesson from "./VideoPronunciationLesson"
 export default function LessonsController() {
   const [index, setIndex] = React.useState(0)
   const incrementIndex = () => setIndex(index + 1)
-
   
   const englishOptions = [
     {
@@ -27,9 +26,9 @@ export default function LessonsController() {
   const spanishText = "¿Qué estás comiendo?"
 
   const indexToLesson = [
-    SpeechLesson({ spanishText: '¿Qué estás', englishText: 'What are you eating?' }),
     VideoPronunciationLesson({ incrementIndex }),
     MultipleChoiceComprehension({ incrementIndex, options: englishOptions, unknownText: spanishText, speakingLanguage: 'es-ES' }), // spanish to english
+    SpeechLesson({ shownSpanishText: '¿Qué estás', englishText: 'What are you eating?', incrementIndex, spanishAnswer: spanishText }),
     // MultipleChoiceComprehension({ incrementIndex }), // english to spanish
     FinishedLessonScreen(),
   ]
