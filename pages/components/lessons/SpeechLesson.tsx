@@ -72,21 +72,8 @@ export const SpeechLesson = (props: {
       </div>
       <TranscriptText transcript={transcript} />
       <SoundWavesAnimation listening={listening} />
-      <div className={css(styles.centeredDiv, styles.moreTopMargin)}>
-        <Button 
-          className={css(styles.roundedCorners)}
-          onClick={() => SpeechRecognition.startListening({ language: 'es-ES' })}
-          disabled={textMatches}
-        >
-          <FontAwesomeIcon icon={faMicrophone}/> Say in Spanish
-        </Button>
-      </div>
-      <Button 
-        className="btn-block mr-1 mt-1 btn-lg"
-        variant="light"
-        style={{ width: "100%", background: "#f4f5f8" }}
-        onClick={props.incrementIndex}
-      >Skip</Button>
+      <ClickToListenButton textMatches={textMatches} />
+      <SkipButton incrementIndex={props.incrementIndex} />
       <NextButton 
         incrementIndex={props.incrementIndex}
         disabled={!textMatches}
@@ -113,4 +100,29 @@ const SoundWavesAnimation = (props: { listening: boolean }) => {
       />
     </div>
   ) : <></>
+}
+
+const ClickToListenButton = (props: { textMatches: boolean }) => {
+  return (
+    <div className={css(styles.centeredDiv, styles.moreTopMargin)}>
+      <Button 
+        className={css(styles.roundedCorners)}
+        onClick={() => SpeechRecognition.startListening({ language: 'es-ES' })}
+        disabled={props.textMatches}
+      >
+        <FontAwesomeIcon icon={faMicrophone}/> Say in Spanish
+      </Button>
+    </div>
+  )
+}
+
+const SkipButton = (props: { incrementIndex: () => void }) => {
+  return (
+    <Button 
+      className="btn-block mr-1 mt-1 btn-lg"
+      variant="light"
+      style={{ width: "100%", background: "#f4f5f8" }}
+      onClick={props.incrementIndex}
+    >Skip</Button>
+  )
 }
