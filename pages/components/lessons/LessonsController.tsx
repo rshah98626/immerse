@@ -28,7 +28,7 @@ export default function LessonsController() {
   const indexToLesson = [
     VideoPronunciationLesson({ incrementIndex }),
     MultipleChoiceComprehension({ incrementIndex, options: englishOptions, unknownText: spanishText, speakingLanguage: 'es-ES' }), // spanish to english
-    SpeechLesson({ shownSpanishText: '¿Qué estás', englishText: 'What are you eating?', incrementIndex, spanishAnswer: spanishText }),
+    SpeechLesson({ shownSpanishText: '¿Qué estás __', englishText: 'What are you eating?', incrementIndex, spanishAnswer: spanishText }),
     // MultipleChoiceComprehension({ incrementIndex }), // english to spanish
     FinishedLessonScreen(),
   ]
