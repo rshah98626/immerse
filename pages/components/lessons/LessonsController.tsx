@@ -1,14 +1,13 @@
 import React from "react"
 import FinishedLessonScreen from "./FinishedLessonScreen"
-import { MultipleChoiceComprehension, Option } from "./MultipleChoiceComprehension"
-import SpeechLesson from "./SpeechLesson"
+import { MultipleChoiceComprehension } from "./MultipleChoiceComprehension"
+import { SpeechLesson } from "./SpeechLesson"
 import VideoPronunciationLesson from "./VideoPronunciationLesson"
 
 
 export default function LessonsController() {
   const [index, setIndex] = React.useState(0)
   const incrementIndex = () => setIndex(index + 1)
-
   
   const englishOptions = [
     {
@@ -29,7 +28,7 @@ export default function LessonsController() {
   const indexToLesson = [
     VideoPronunciationLesson({ incrementIndex }),
     MultipleChoiceComprehension({ incrementIndex, options: englishOptions, unknownText: spanishText, speakingLanguage: 'es-ES' }), // spanish to english
-    SpeechLesson(),
+    SpeechLesson({ shownSpanishText: '¿Qué estás __', englishText: 'What are you eating?', incrementIndex, spanishAnswer: spanishText }),
     // MultipleChoiceComprehension({ incrementIndex }), // english to spanish
     FinishedLessonScreen(),
   ]

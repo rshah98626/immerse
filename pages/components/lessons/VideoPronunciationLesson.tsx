@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Ratio } from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite'
+import { NextButton } from '../common/NextButton';
 
 const styles = StyleSheet.create({
   centeredDiv: {
@@ -8,7 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: "1em",
   },
-  moreeTopMargin: {
+  moreTopMargin: {
     marginTop: "2em"
   }
 })
@@ -37,16 +38,11 @@ export default function VideoPronunciationLesson(props: {
           {acknowledged ? '✅' : ''} What are you eating?
         </Button>
       </div>
-      <div className={css(styles.centeredDiv, styles.moreeTopMargin)}>
-        <Button 
-          className="btn-block mr-1 mt-1 btn-lg" 
-          variant='primary' 
-          onClick={props.incrementIndex} 
+      <div className={css(styles.centeredDiv, styles.moreTopMargin)}>
+        <NextButton
+          incrementIndex={props.incrementIndex}
           disabled={!acknowledged || !videoFinished}
-          style={{ width: "100%" }}
-        >
-          Next
-        </Button>
+        />
       </div>
     </div>
   )

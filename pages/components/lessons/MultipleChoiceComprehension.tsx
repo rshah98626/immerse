@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 import { StyleSheet, css } from 'aphrodite'
 import { SpeakingComponent } from "../misc/SpeakingComponent";
 import MultipleChoiceOptionGenerator from "../misc/MultipleChoiceOptionGenerator";
+import { NextButton } from "../common/NextButton";
 
 const styles = StyleSheet.create({
   centeredDiv: {
@@ -58,14 +58,10 @@ export const MultipleChoiceComprehension = (props: {
         shouldDisableButtons={shouldDisableButtons}
       />
       <div className={css(styles.centeredDiv)}>
-        <Button 
-          variant="primary" 
-          onClick={props.incrementIndex} 
-          style={{ width: "100%" }}
+        <NextButton 
+          incrementIndex={props.incrementIndex}
           disabled={!(goToNextLesson && hasSpoken)}
-        >
-          Next
-        </Button>
+        />
       </div>
     </>
   )
